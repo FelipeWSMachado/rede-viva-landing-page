@@ -435,7 +435,6 @@
     // Form Validation & Submission
     // ============================================
     const registrationForm = document.getElementById('registrationForm');
-    const captchaInput = document.getElementById('captcha');
 
     // Phone mask
     const celularInput = document.getElementById('celular');
@@ -453,14 +452,216 @@
         });
     }
 
-    // Captcha validation
-    if (captchaInput) {
-        captchaInput.addEventListener('input', function(e) {
-            const value = e.target.value.trim();
-            if (value === '2' || value === '2.0') {
-                e.target.setCustomValidity('');
-            } else if (value !== '') {
-                e.target.setCustomValidity('A resposta correta é 2');
+    // ============================================
+    // Multi-Step Form Navigation
+    // ============================================
+    let currentStep = 1;
+    const totalSteps = 3;
+    const formSteps = document.querySelectorAll('.form-step');
+    const progressSteps = document.querySelectorAll('.progress-step');
+    const progressLines = document.querySelectorAll('.progress-line');
+    const nextButtons = document.querySelectorAll('.btn-next');
+    const backButtons = document.querySelectorAll('.btn-back');
+
+    // Function to validate step
+    function validateStep(step) {
+        const stepElement = document.querySelector(`.form-step[data-step="${step}"]`);
+        if (!stepElement) return false;
+
+        const inputs = stepElement.querySelectorAll('input[required], select[required]');
+        let isValid = true;
+        const errors = [];
+
+        inputs.forEach(function(input) {
+            const errorSpan = input.closest('.form-group').querySelector('.field-error');
+            
+            // Skip disabled inputs
+            if (input.disabled) {
+                input.classList.remove('error');
+                if (errorSpan) errorSpan.classList.remove('show');
+                return;
+            }
+
+            // Remove previous states
+            input.classList.remove('error', 'success');
+            if (errorSpan) errorSpan.classList.remove('show');
+
+            // Validate based on field type
+            let fieldValid = true;
+            let errorMessage = '';
+
+            if (input.type === 'email') {
+                const email = FormSanitizer.sanitizeEmail(input.value);
+                if (!email) {
+                    fieldValid = false;
+                    errorMessage = 'Email inválido';
+                }
+            } else if (input.type === 'tel') {
+                const phone = FormSanitizer.sanitizePhone(input.value);
+                if (!phone) {
+                    fieldValid = false;
+                    errorMessage = 'Telefone inválido';
+                }
+            } else if (input.type === 'text') {
+                if (input.id === 'nome') {
+                    const name = FormSanitizer.sanitizeName(input.value);
+                    if (!name || name.length < 3) {
+                        fieldValid = false;
+                        errorMessage = 'Nome deve ter pelo menos 3 caracteres';
+                    }
+                } else if (input.id === 'igreja') {
+                    const igreja = FormSanitizer.sanitizeText(input.value);
+                    if (!igreja || igreja.length < 2) {
+                        fieldValid = false;
+                        errorMessage = 'Nome da igreja inválido';
+                    }
+                }
+            } else if (input.tagName === 'SELECT') {
+                if (input.id === 'tipo') {
+                    const tipo = FormSanitizer.validateType(input.value);
+                    if (!tipo) {
+                        fieldValid = false;
+                        errorMessage = 'Selecione uma opção válida';
+                    }
+                } else if (input.id === 'estado') {
+                    const estado = FormSanitizer.sanitizeEstado(input.value);
+                    if (!estado) {
+                        fieldValid = false;
+                        errorMessage = 'Selecione um estado válido';
+                    }
+                } else if (input.id === 'cidade') {
+                    const cidade = FormSanitizer.sanitizeCidade(input.value);
+                    if (!cidade || cidade.length < 2) {
+                        fieldValid = false;
+                        errorMessage = 'Selecione uma cidade válida';
+                    }
+                }
+            } else if (!input.value.trim()) {
+                fieldValid = false;
+                errorMessage = 'Este campo é obrigatório';
+            }
+
+            if (!fieldValid) {
+                isValid = false;
+                input.classList.add('error');
+                if (errorSpan) {
+                    errorSpan.textContent = errorMessage;
+                    errorSpan.classList.add('show');
+                }
+            } else {
+                input.classList.add('success');
+            }
+        });
+
+        // Special validation for step 3 (ALTCHA)
+        if (step === 3) {
+            const altchaWidget = document.getElementById('altcha-widget');
+            if (altchaWidget) {
+                // Check if ALTCHA is verified by checking the hidden input value
+                const formData = new FormData(registrationForm);
+                const altchaValue = formData.get('altcha');
+                const isVerified = altchaWidget.getAttribute('data-verified') === 'true' || altchaValue;
+                
+                if (!isVerified) {
+                    isValid = false;
+                    const errorSpan = altchaWidget.closest('.form-group').querySelector('.field-error');
+                    if (errorSpan) {
+                        errorSpan.textContent = 'Por favor, complete a verificação de segurança';
+                        errorSpan.classList.add('show');
+                    }
+                } else {
+                    const errorSpan = altchaWidget.closest('.form-group').querySelector('.field-error');
+                    if (errorSpan) {
+                        errorSpan.classList.remove('show');
+                    }
+                }
+            }
+        }
+
+        return isValid;
+    }
+
+    // Function to show step
+    function showStep(step) {
+        // Hide all steps
+        formSteps.forEach(function(stepEl) {
+            stepEl.classList.remove('active');
+        });
+
+        // Show current step
+        const currentStepEl = document.querySelector(`.form-step[data-step="${step}"]`);
+        if (currentStepEl) {
+            currentStepEl.classList.add('active');
+        }
+
+        // Update progress indicator
+        progressSteps.forEach(function(progressStep, index) {
+            const stepNum = index + 1;
+            progressStep.classList.remove('active', 'completed');
+            
+            if (stepNum < step) {
+                progressStep.classList.add('completed');
+            } else if (stepNum === step) {
+                progressStep.classList.add('active');
+            }
+        });
+
+        // Update progress lines
+        progressLines.forEach(function(line, index) {
+            line.classList.remove('completed');
+            if (index + 1 < step) {
+                line.classList.add('completed');
+            }
+        });
+
+        currentStep = step;
+    }
+
+    // Next button handlers
+    nextButtons.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            if (validateStep(currentStep)) {
+                if (currentStep < totalSteps) {
+                    showStep(currentStep + 1);
+                }
+            }
+        });
+    });
+
+    // Back button handlers
+    backButtons.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            if (currentStep > 1) {
+                showStep(currentStep - 1);
+            }
+        });
+    });
+
+    // Initialize first step
+    if (formSteps.length > 0) {
+        showStep(1);
+    }
+
+    // ALTCHA verification handler
+    const altchaWidget = document.getElementById('altcha-widget');
+    if (altchaWidget) {
+        // Listen for ALTCHA verification
+        altchaWidget.addEventListener('verify', function(event) {
+            if (event.detail && event.detail.verified) {
+                altchaWidget.setAttribute('data-verified', 'true');
+                const errorSpan = altchaWidget.closest('.form-group').querySelector('.field-error');
+                if (errorSpan) {
+                    errorSpan.classList.remove('show');
+                }
+            }
+        });
+
+        // Also check on form submission
+        altchaWidget.addEventListener('change', function() {
+            const formData = new FormData(registrationForm);
+            const altchaValue = formData.get('altcha');
+            if (altchaValue) {
+                altchaWidget.setAttribute('data-verified', 'true');
             }
         });
     }
@@ -482,8 +683,7 @@
                 tipo: FormSanitizer.validateType(rawData.tipo),
                 igreja: FormSanitizer.sanitizeText(rawData.igreja),
                 estado: FormSanitizer.sanitizeEstado(rawData.estado),
-                cidade: FormSanitizer.sanitizeCidade(rawData.cidade),
-                captcha: rawData.captcha
+                cidade: FormSanitizer.sanitizeCidade(rawData.cidade)
             };
 
             // Validação final
@@ -525,11 +725,24 @@
                 hasErrors = true;
             }
 
-            if (!FormSanitizer.validateCaptcha(sanitizedData.captcha)) {
-                errors.push('Captcha incorreto');
+            // Validate ALTCHA
+            const altchaWidget = document.getElementById('altcha-widget');
+            const formDataForAltcha = new FormData(registrationForm);
+            const altchaValue = formDataForAltcha.get('altcha');
+            const isAltchaVerified = altchaWidget && (altchaWidget.getAttribute('data-verified') === 'true' || altchaValue);
+            
+            if (!isAltchaVerified) {
+                errors.push('Por favor, complete a verificação de segurança');
                 hasErrors = true;
-                captchaInput.setCustomValidity('A resposta correta é 2');
-                captchaInput.reportValidity();
+                // Show step 3 if not visible
+                if (currentStep !== 3) {
+                    showStep(3);
+                }
+                const errorSpan = altchaWidget ? altchaWidget.closest('.form-group').querySelector('.field-error') : null;
+                if (errorSpan) {
+                    errorSpan.textContent = 'Por favor, complete a verificação de segurança';
+                    errorSpan.classList.add('show');
+                }
             }
 
             // Se houver erros, exibe notificação
@@ -538,8 +751,7 @@
                 return;
             }
 
-            // Remove captcha dos dados enviados
-            delete sanitizedData.captcha;
+            // ALTCHA is validated separately, not sent to API
 
             // Show loading state
             const submitButton = registrationForm.querySelector('.btn-submit');
@@ -585,6 +797,18 @@
                 .then(function(result) {
                     // Reset form
                     registrationForm.reset();
+                    
+                    // Reset ALTCHA
+                    if (altchaWidget) {
+                        altchaWidget.removeAttribute('data-verified');
+                        // Reset ALTCHA widget if it has a reset method
+                        if (altchaWidget.reset) {
+                            altchaWidget.reset();
+                        }
+                    }
+                    
+                    // Reset to step 1
+                    showStep(1);
                     
                     // Show success message
                     showNotification('Cadastro realizado com sucesso! Em breve você receberá um email com as instruções.', 'success');

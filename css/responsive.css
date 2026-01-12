@@ -198,6 +198,34 @@
         font-size: var(--font-size-lg);
     }
     
+    /* Form Multi-Steps Mobile */
+    .progress-steps {
+        gap: var(--spacing-xs);
+    }
+    
+    .progress-step .step-number {
+        width: 32px;
+        height: 32px;
+        font-size: var(--font-size-base);
+    }
+    
+    .progress-step .step-label {
+        font-size: 11px;
+    }
+    
+    .progress-line {
+        margin: 0 var(--spacing-xs);
+    }
+    
+    .form-step-buttons {
+        flex-direction: column;
+    }
+    
+    .btn-next,
+    .btn-back {
+        width: 100%;
+    }
+    
     .benefit-item {
         font-size: var(--font-size-base);
     }

@@ -681,6 +681,218 @@ section.hero ~ section.welcome-banner {
 }
 
 /* ============================================
+   Form Multi-Steps
+   ============================================ */
+
+.form-progress {
+    margin-bottom: var(--spacing-2xl);
+    padding-bottom: var(--spacing-xl);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.progress-steps {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.progress-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-xs);
+    flex: 1;
+    position: relative;
+}
+
+.progress-step .step-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: var(--font-size-lg);
+    transition: all var(--transition-base);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.progress-step.active .step-number {
+    background: white;
+    color: var(--primary-color);
+    border-color: white;
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+
+.progress-step.completed .step-number {
+    background: var(--accent-color);
+    color: white;
+    border-color: var(--accent-color);
+}
+
+.progress-step .step-label {
+    font-size: var(--font-size-sm);
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 500;
+    text-align: center;
+    transition: color var(--transition-base);
+}
+
+.progress-step.active .step-label {
+    color: white;
+    font-weight: 600;
+}
+
+.progress-step.completed .step-label {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.progress-line {
+    flex: 1;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 0 var(--spacing-sm);
+    position: relative;
+    top: -20px;
+}
+
+.progress-line.completed {
+    background: var(--accent-color);
+}
+
+.form-step {
+    display: none;
+    animation: fadeOut 0.3s ease;
+}
+
+.form-step.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}
+
+.form-step-buttons {
+    display: flex;
+    gap: var(--spacing-md);
+    justify-content: space-between;
+    margin-top: var(--spacing-xl);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-next,
+.btn-back {
+    padding: 1rem 2rem;
+    border-radius: var(--radius-lg);
+    font-weight: 600;
+    font-size: var(--font-size-base);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    border: none;
+    font-family: var(--font-family);
+}
+
+.btn-next {
+    background: white;
+    color: var(--primary-color);
+    margin-left: auto;
+}
+
+.btn-next:hover {
+    background: var(--accent-light);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+}
+
+.btn-next:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-back {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-back:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.field-error {
+    color: #ff6b6b;
+    font-size: var(--font-size-sm);
+    margin-top: 0.25rem;
+    display: none;
+    min-height: 1.25rem;
+}
+
+.field-error.show {
+    display: block;
+}
+
+.form-group input.error,
+.form-group select.error {
+    border-color: #ff6b6b;
+    box-shadow: 0 0 0 4px rgba(255, 107, 107, 0.1);
+}
+
+.form-group input.success,
+.form-group select.success {
+    border-color: #10b981;
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
+}
+
+/* ALTCHA Widget Styling */
+altcha-widget {
+    display: block;
+    margin-top: var(--spacing-sm);
+}
+
+altcha-widget::part(button) {
+    background: white;
+    color: var(--primary-color);
+    border-radius: var(--radius-lg);
+    padding: 1rem 1.5rem;
+    font-weight: 600;
+    transition: all var(--transition-base);
+}
+
+altcha-widget::part(button):hover {
+    background: var(--accent-light);
+    transform: translateY(-2px);
+}
+
+/* ============================================
    Recursos Section
    ============================================ */
 

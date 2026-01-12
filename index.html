@@ -15,6 +15,9 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/animations.css">
     <link rel="stylesheet" href="css/responsive.css">
+    
+    <!-- ALTCHA -->
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@altcha/altcha@latest/dist/altcha-widget.js"></script>
 </head>
 <body>
     <!-- Header -->
@@ -217,50 +220,102 @@
                 </div>
                 <div class="hero-form" data-aos="fade-left">
                     <form class="registration-form" id="registrationForm">
-                        <div class="form-group">
-                            <label for="nome">Nome*</label>
-                            <input type="text" id="nome" name="nome" required>
+                        <!-- Progress Indicator -->
+                        <div class="form-progress">
+                            <div class="progress-steps">
+                                <div class="progress-step active" data-step="1">
+                                    <div class="step-number">1</div>
+                                    <div class="step-label">Dados Pessoais</div>
+                                </div>
+                                <div class="progress-line"></div>
+                                <div class="progress-step" data-step="2">
+                                    <div class="step-number">2</div>
+                                    <div class="step-label">Igreja</div>
+                                </div>
+                                <div class="progress-line"></div>
+                                <div class="progress-step" data-step="3">
+                                    <div class="step-number">3</div>
+                                    <div class="step-label">Confirmação</div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="email">Email*</label>
-                            <input type="email" id="email" name="email" required>
+
+                        <!-- Step 1: Dados Pessoais -->
+                        <div class="form-step active" data-step="1">
+                            <div class="form-group">
+                                <label for="nome">Nome*</label>
+                                <input type="text" id="nome" name="nome" required>
+                                <span class="field-error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email*</label>
+                                <input type="email" id="email" name="email" required>
+                                <span class="field-error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="celular">Celular*</label>
+                                <input type="tel" id="celular" name="celular" placeholder="(00) 00000-0000" required>
+                                <span class="field-error"></span>
+                            </div>
+                            <div class="form-step-buttons">
+                                <button type="button" class="btn-next">Próximo</button>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="celular">Celular*</label>
-                            <input type="tel" id="celular" name="celular" placeholder="(00) 00000-0000" required>
+
+                        <!-- Step 2: Informações da Igreja -->
+                        <div class="form-step" data-step="2">
+                            <div class="form-group">
+                                <label for="tipo">Você é pastor ou líder?*</label>
+                                <select id="tipo" name="tipo" required>
+                                    <option value="">Selecione</option>
+                                    <option value="nao">Não</option>
+                                    <option value="lider">Sim, sou líder</option>
+                                    <option value="pastor">Sim, sou pastor</option>
+                                </select>
+                                <span class="field-error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="igreja">Qual sua igreja?*</label>
+                                <input type="text" id="igreja" name="igreja" required>
+                                <span class="field-error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="estado">Estado*</label>
+                                <select id="estado" name="estado" required>
+                                    <option value="">Selecione o estado</option>
+                                </select>
+                                <span class="field-error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="cidade">Cidade*</label>
+                                <select id="cidade" name="cidade" required disabled>
+                                    <option value="">Primeiro selecione o estado</option>
+                                </select>
+                                <span class="field-error"></span>
+                            </div>
+                            <div class="form-step-buttons">
+                                <button type="button" class="btn-back">Voltar</button>
+                                <button type="button" class="btn-next">Próximo</button>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="tipo">Você é pastor ou líder?*</label>
-                            <select id="tipo" name="tipo" required>
-                                <option value="">Selecione</option>
-                                <option value="nao">Não</option>
-                                <option value="lider">Sim, sou líder</option>
-                                <option value="pastor">Sim, sou pastor</option>
-                            </select>
+
+                        <!-- Step 3: Confirmação e Envio -->
+                        <div class="form-step" data-step="3">
+                            <div class="form-group">
+                                <label>Verificação de Segurança*</label>
+                                <altcha-widget 
+                                    id="altcha-widget"
+                                    name="altcha">
+                                </altcha-widget>
+                                <span class="field-error"></span>
+                            </div>
+                            <div class="form-step-buttons">
+                                <button type="button" class="btn-back">Voltar</button>
+                                <button type="submit" class="btn-submit">
+                                    Acessar a Rede Viva
+                                </button>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="igreja">Qual sua igreja?*</label>
-                            <input type="text" id="igreja" name="igreja" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="estado">Estado*</label>
-                            <select id="estado" name="estado" required>
-                                <option value="">Selecione o estado</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="cidade">Cidade*</label>
-                            <select id="cidade" name="cidade" required disabled>
-                                <option value="">Primeiro selecione o estado</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="captcha">1 + 1 = ?*</label>
-                            <input type="text" id="captcha" name="captcha" placeholder="?" required>
-                        </div>
-                        <button type="submit" class="btn-submit">
-                            Acessar a Rede Viva
-                        </button>
                     </form>
                 </div>
             </div>
