@@ -1,0 +1,24 @@
+{
+  "name": "rede-viva-landing-page",
+  "version": "1.0.0",
+  "description": "Rede Viva - Landing Page",
+  "scripts": {
+    "build": "webpack --mode production",
+    "build:simple": "node build-simple.js",
+    "dev": "webpack --mode development --watch",
+    "serve": "webpack serve --mode development"
+  },
+  "devDependencies": {
+    "webpack": "^5.88.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1",
+    "css-loader": "^6.8.1",
+    "style-loader": "^3.3.3",
+    "mini-css-extract-plugin": "^2.7.6",
+    "html-webpack-plugin": "^5.5.3",
+    "terser-webpack-plugin": "^5.3.9",
+    "css-minimizer-webpack-plugin": "^5.0.1",
+    "copy-webpack-plugin": "^11.0.0"
+  }
+}
+

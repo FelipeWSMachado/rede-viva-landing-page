@@ -1,0 +1,560 @@
+/* ============================================
+   Animations & Transitions
+   ============================================ */
+
+/* Fade In Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Slide Up Animation */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Slide Down Animation */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Slide Left Animation */
+@keyframes slideLeft {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Slide Right Animation */
+@keyframes slideRight {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Scale In Animation */
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ============================================
+   AOS (Animate On Scroll) Classes - Estilo Apple
+   ============================================ */
+
+[data-aos] {
+    opacity: 0;
+    /* Transição suave estilo Apple com easing natural */
+    transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    /* Melhora a performance usando GPU */
+    will-change: opacity, transform;
+    /* Previne flickering durante a animação */
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+[data-aos].aos-animate {
+    opacity: 1;
+    /* Remove will-change após animação para melhor performance */
+    will-change: auto;
+}
+
+/* Fade Up */
+[data-aos="fade-up"] {
+    transform: translateY(40px);
+}
+
+[data-aos="fade-up"].aos-animate {
+    transform: translateY(0);
+}
+
+/* Fade Down */
+[data-aos="fade-down"] {
+    transform: translateY(-40px);
+}
+
+[data-aos="fade-down"].aos-animate {
+    transform: translateY(0);
+}
+
+/* Fade Left */
+[data-aos="fade-left"] {
+    transform: translateX(40px);
+}
+
+[data-aos="fade-left"].aos-animate {
+    transform: translateX(0);
+}
+
+/* Fade Right */
+[data-aos="fade-right"] {
+    transform: translateX(-40px);
+}
+
+[data-aos="fade-right"].aos-animate {
+    transform: translateX(0);
+}
+
+/* Fade In */
+[data-aos="fade-in"] {
+    transform: none;
+}
+
+/* Zoom In */
+[data-aos="zoom-in"] {
+    transform: scale(0.8);
+}
+
+[data-aos="zoom-in"].aos-animate {
+    transform: scale(1);
+}
+
+/* Zoom Out */
+[data-aos="zoom-out"] {
+    transform: scale(1.2);
+}
+
+[data-aos="zoom-out"].aos-animate {
+    transform: scale(1);
+}
+
+/* ============================================
+   Staggered Animation Delays
+   ============================================ */
+
+[data-aos-delay="100"] {
+    transition-delay: 0.1s;
+}
+
+[data-aos-delay="200"] {
+    transition-delay: 0.2s;
+}
+
+[data-aos-delay="300"] {
+    transition-delay: 0.3s;
+}
+
+[data-aos-delay="400"] {
+    transition-delay: 0.4s;
+}
+
+[data-aos-delay="500"] {
+    transition-delay: 0.5s;
+}
+
+/* ============================================
+   Loading States
+   ============================================ */
+
+.loading {
+    position: relative;
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid var(--primary-color);
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ============================================
+   Form Validation States
+   ============================================ */
+
+.form-group input:valid:not(:placeholder-shown),
+.form-group select:valid {
+    border-color: var(--success-color);
+}
+
+.form-group input:invalid:not(:placeholder-shown):not(:focus),
+.form-group select:invalid:not(:focus) {
+    border-color: var(--error-color);
+}
+
+.form-group input:focus:invalid,
+.form-group select:focus:invalid {
+    border-color: var(--error-color);
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+/* ============================================
+   Smooth Scroll Behavior
+   ============================================ */
+
+html {
+    scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+    
+    [data-aos] {
+        opacity: 1;
+        transform: none !important;
+        transition: none;
+    }
+}
+
+/* ============================================
+   Section Interactions - Efeitos entre Seções
+   ============================================ */
+
+/* Divisores entre seções (mais discreto) */
+.section-divider {
+    height: 1px;
+    width: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(10, 37, 64, 0.05) 20%,
+        rgba(10, 37, 64, 0.1) 50%,
+        rgba(10, 37, 64, 0.05) 80%,
+        transparent 100%
+    );
+    margin: var(--spacing-lg) 0;
+    position: relative;
+    opacity: 0;
+    transform: scaleX(0);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    z-index: 0;
+}
+
+/* Remove divisor entre hero e welcome-banner */
+.hero + .section-divider {
+    display: none !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    opacity: 0 !important;
+}
+
+.section-divider[data-section-divider] {
+    animation: dividerReveal 1s ease forwards;
+}
+
+@keyframes dividerReveal {
+    to {
+        opacity: 1;
+        transform: scaleX(1);
+    }
+}
+
+/* Efeitos de scroll progressivo nas seções */
+section {
+    position: relative;
+    transition: filter 0.5s ease, opacity 0.5s ease;
+    --scroll-progress: 0;
+    --connection-strength: 0;
+    z-index: 1;
+    /* Remove qualquer blur padrão */
+    filter: none !important;
+}
+
+section > * {
+    position: relative;
+    z-index: 2;
+}
+
+/* Garante que as seções não tenham blur indesejado */
+section:not(.hero) {
+    filter: none;
+}
+
+section.section-visible {
+    /* Seção está visível - efeitos aplicados via CSS variables */
+    z-index: 1;
+}
+
+/* Efeito de conexão visual entre seções (muito mais sutil) */
+section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(0, 102, 204, calc(var(--connection-strength) * 0.15)),
+        transparent
+    );
+    opacity: calc(var(--connection-strength) * 0.5);
+    transition: opacity 0.6s ease;
+    pointer-events: none;
+    z-index: 0;
+    /* Só aparece quando há conexão significativa */
+    display: block;
+}
+
+/* Cards de recursos com efeito 3D */
+.recurso-card {
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                box-shadow 0.3s ease;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+.recurso-card:hover {
+    transform: translateY(-6px) perspective(1000px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.recurso-card .card-icon {
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.recurso-card:hover .card-icon {
+    transform: scale(1.1) rotate(5deg);
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+}
+
+/* Animações sequenciais nos benefit items */
+.benefit-item {
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.benefit-item.animate-on-scroll {
+    animation: slideInFromLeft 0.6s ease forwards;
+}
+
+@keyframes slideInFromLeft {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Efeito parallax no hero background */
+.hero-background {
+    will-change: transform;
+    transition: transform 0.1s ease-out;
+}
+
+/* Transições suaves entre seções */
+.sobre,
+.recursos,
+.estude-gratis,
+.form-section {
+    transition: background 0.8s ease;
+    isolation: isolate; /* Cria novo contexto de empilhamento */
+}
+
+/* Efeito de glow nas seções quando visíveis (mais sutil) */
+section.section-visible::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(
+        circle at 50% 0%,
+        rgba(0, 102, 204, calc(var(--scroll-progress) * 0.02)),
+        transparent 60%
+    );
+    pointer-events: none;
+    opacity: calc(var(--scroll-progress) * 0.5);
+    transition: opacity 0.5s ease;
+    z-index: 0;
+}
+
+/* Efeito de hover nas seções */
+section:hover {
+    z-index: 1;
+}
+
+/* Animações de entrada mais suaves para cards */
+.recurso-card {
+    animation: cardFloatIn 0.8s ease-out backwards;
+}
+
+.recurso-card:nth-child(1) { animation-delay: 0.1s; }
+.recurso-card:nth-child(2) { animation-delay: 0.2s; }
+.recurso-card:nth-child(3) { animation-delay: 0.3s; }
+.recurso-card:nth-child(4) { animation-delay: 0.4s; }
+
+@keyframes cardFloatIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Efeito de ripple ao clicar nos cards */
+.recurso-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.recurso-card::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(0, 102, 204, 0.1);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+    pointer-events: none;
+}
+
+.recurso-card:active::after {
+    width: 300px;
+    height: 300px;
+}
+
+/* Efeito de conexão visual entre elementos relacionados */
+.sobre-content {
+    position: relative;
+}
+
+.sobre-content::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 2px;
+    height: 0;
+    background: linear-gradient(
+        180deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    transform: translate(-50%, -50%);
+    transition: height 0.6s ease;
+    opacity: var(--connection-strength);
+}
+
+.sobre-content:hover::before {
+    height: 80%;
+}
+
+/* Melhorias nos formulários com interação */
+.form-group input:focus,
+.form-group select:focus {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 102, 204, 0.15);
+}
+
+/* Efeito de onda no welcome banner */
+.welcome-banner {
+    position: relative;
+    overflow: hidden;
+}
+
+.welcome-banner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.1),
+        transparent
+    );
+    animation: wave 3s ease-in-out infinite;
+}
+
+@keyframes wave {
+    0%, 100% {
+        left: -100%;
+    }
+    50% {
+        left: 100%;
+    }
+}
+
+/* Responsividade para interações */
+@media (max-width: 768px) {
+    .recurso-card:hover {
+        transform: translateY(-4px);
+    }
+    
+    section::after {
+        display: none; /* Remove efeitos complexos em mobile */
+    }
+}
+
+/* Preferências de movimento reduzido */
+@media (prefers-reduced-motion: reduce) {
+    .section-divider,
+    .benefit-item,
+    .recurso-card,
+    section::after,
+    .welcome-banner::before {
+        animation: none !important;
+        transition: none !important;
+    }
+    
+    .recurso-card:hover {
+        transform: none;
+    }
+}
+
