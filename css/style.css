@@ -632,8 +632,15 @@ section.hero ~ section.welcome-banner {
     border-radius: var(--radius-lg);
     font-family: var(--font-family);
     font-size: var(--font-size-base);
+    color: var(--text-dark);
     transition: all var(--transition-fast);
     background: var(--bg-white);
+}
+
+.form-group input::placeholder,
+.form-group select::placeholder {
+    color: var(--text-light);
+    opacity: 0.7;
 }
 
 .form-group input:focus,
@@ -652,6 +659,8 @@ section.hero ~ section.welcome-banner {
 
 .form-group select option {
     padding: var(--spacing-sm);
+    color: var(--text-dark);
+    background: var(--bg-white);
 }
 
 .btn-submit {
@@ -691,6 +700,7 @@ section.hero ~ section.welcome-banner {
 }
 
 .progress-steps {
+    color: var(--primary-color);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -699,6 +709,7 @@ section.hero ~ section.welcome-banner {
 }
 
 .progress-step {
+    color: var(--primary-color);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -711,22 +722,22 @@ section.hero ~ section.welcome-banner {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.2);
-    color: rgba(255, 255, 255, 0.6);
+    background: var(--bg-white);
+    color: var(--primary-color);
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 700;
     font-size: var(--font-size-lg);
     transition: all var(--transition-base);
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    border: 2px solid var(--primary-color);
 }
 
 .progress-step.active .step-number {
-    background: white;
+    background: var(--bg-white);
     color: var(--primary-color);
-    border-color: white;
-    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 12px var(--shadow-md);
     transform: scale(1.1);
 }
 
@@ -738,25 +749,29 @@ section.hero ~ section.welcome-banner {
 
 .progress-step .step-label {
     font-size: var(--font-size-sm);
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--text-light);
     font-weight: 500;
-    text-align: center;
+    text-align: start;
     transition: color var(--transition-base);
+    text-wrap: nowrap;
+    max-width: 100px;
 }
 
 .progress-step.active .step-label {
-    color: white;
+    color: var(--text-light);
     font-weight: 600;
 }
 
 .progress-step.completed .step-label {
-    color: rgba(255, 255, 255, 0.9);
+    color: var(--text-light);
+    font-weight: 500;
 }
 
 .progress-line {
+    color: var(--primary-color);
     flex: 1;
     height: 2px;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.4);
     margin: 0 var(--spacing-sm);
     position: relative;
     top: -20px;
@@ -764,6 +779,7 @@ section.hero ~ section.welcome-banner {
 
 .progress-line.completed {
     background: var(--accent-color);
+    opacity: 1;
 }
 
 .form-step {
@@ -804,18 +820,19 @@ section.hero ~ section.welcome-banner {
     justify-content: space-between;
     margin-top: var(--spacing-xl);
     padding-top: var(--spacing-lg);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid var(--border-color);
 }
 
 .btn-next,
 .btn-back {
+    border: none;
+    color: var(--text-dark);
     padding: 1rem 2rem;
     border-radius: var(--radius-lg);
     font-weight: 600;
     font-size: var(--font-size-base);
     cursor: pointer;
     transition: all var(--transition-base);
-    border: none;
     font-family: var(--font-family);
 }
 
@@ -838,14 +855,14 @@ section.hero ~ section.welcome-banner {
 }
 
 .btn-back {
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: var(--bg-light);
+    color: var(--text-dark);
+    border: none;
 }
 
 .btn-back:hover {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.3);
+    background: var(--border-color);
+    color: var(--primary-color);
 }
 
 .field-error {
@@ -1065,7 +1082,8 @@ altcha-widget::part(button):hover {
 
 .form-section {
     padding: var(--spacing-4xl) 0;
-    background: var(--bg-gradient);
+    background: linear-gradient(135deg, #0a2540 0%, #1a3d5c 50%, #0066cc 100%) !important;
+    background-color: #0a2540;
     color: white;
     position: relative;
     overflow: hidden;
