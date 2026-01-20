@@ -111,14 +111,14 @@
         if (heroVideos.length < 2) return;
 
         let currentIndex = 0;
-        const interval = 5000; // 5 segundos entre cada troca
 
-        function switchVideo() {
+        function switchToNextVideo() {
             // Pausa todos os vídeos e remove active
             heroVideos.forEach(function(video) {
                 video.classList.remove('active');
                 if (video.tagName === 'VIDEO') {
                     video.pause();
+                    video.currentTime = 0;
                 }
             });
 
@@ -135,6 +135,18 @@
             }
         }
 
+        // Configura event listeners para trocar quando cada vídeo terminar
+        heroVideos.forEach(function(video) {
+            if (video.tagName === 'VIDEO') {
+                // Quando o vídeo terminar, troca para o próximo
+                video.addEventListener('ended', function() {
+                    if (video.classList.contains('active')) {
+                        switchToNextVideo();
+                    }
+                });
+            }
+        });
+
         // Garante que o primeiro vídeo está reproduzindo
         const firstVideo = heroVideos[0];
         if (firstVideo && firstVideo.tagName === 'VIDEO') {
@@ -142,9 +154,6 @@
                 console.log('Erro ao reproduzir primeiro vídeo:', e);
             });
         }
-
-        // Inicia a alternância após o primeiro intervalo
-        setInterval(switchVideo, interval);
     })();
 
     // ============================================
