@@ -104,28 +104,47 @@
     });
 
     // ============================================
-    // Hero GIF Rotation
+    // Hero Video Rotation
     // ============================================
     (function() {
-        const heroImages = document.querySelectorAll('.hero-background .hero-image');
-        if (heroImages.length < 2) return;
+        const heroVideos = document.querySelectorAll('.hero-background .hero-image');
+        if (heroVideos.length < 2) return;
 
         let currentIndex = 0;
         const interval = 5000; // 5 segundos entre cada troca
 
-        function switchGif() {
-            // Remove active de todos
-            heroImages.forEach(function(img) {
-                img.classList.remove('active');
+        function switchVideo() {
+            // Pausa todos os vídeos e remove active
+            heroVideos.forEach(function(video) {
+                video.classList.remove('active');
+                if (video.tagName === 'VIDEO') {
+                    video.pause();
+                }
             });
 
-            // Adiciona active no próximo
-            currentIndex = (currentIndex + 1) % heroImages.length;
-            heroImages[currentIndex].classList.add('active');
+            // Adiciona active no próximo e reproduz
+            currentIndex = (currentIndex + 1) % heroVideos.length;
+            const nextVideo = heroVideos[currentIndex];
+            nextVideo.classList.add('active');
+            
+            if (nextVideo.tagName === 'VIDEO') {
+                nextVideo.currentTime = 0;
+                nextVideo.play().catch(function(e) {
+                    console.log('Erro ao reproduzir vídeo:', e);
+                });
+            }
+        }
+
+        // Garante que o primeiro vídeo está reproduzindo
+        const firstVideo = heroVideos[0];
+        if (firstVideo && firstVideo.tagName === 'VIDEO') {
+            firstVideo.play().catch(function(e) {
+                console.log('Erro ao reproduzir primeiro vídeo:', e);
+            });
         }
 
         // Inicia a alternância após o primeiro intervalo
-        setInterval(switchGif, interval);
+        setInterval(switchVideo, interval);
     })();
 
     // ============================================
