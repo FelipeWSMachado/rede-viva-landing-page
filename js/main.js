@@ -104,6 +104,31 @@
     });
 
     // ============================================
+    // Hero GIF Rotation
+    // ============================================
+    (function() {
+        const heroImages = document.querySelectorAll('.hero-background .hero-image');
+        if (heroImages.length < 2) return;
+
+        let currentIndex = 0;
+        const interval = 5000; // 5 segundos entre cada troca
+
+        function switchGif() {
+            // Remove active de todos
+            heroImages.forEach(function(img) {
+                img.classList.remove('active');
+            });
+
+            // Adiciona active no próximo
+            currentIndex = (currentIndex + 1) % heroImages.length;
+            heroImages[currentIndex].classList.add('active');
+        }
+
+        // Inicia a alternância após o primeiro intervalo
+        setInterval(switchGif, interval);
+    })();
+
+    // ============================================
     // Form Sanitization & Validation
     // ============================================
     

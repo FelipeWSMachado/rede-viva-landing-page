@@ -330,6 +330,14 @@ section.hero + section.welcome-banner {
     position: absolute;
     top: 0;
     left: 0;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    z-index: 1;
+}
+
+.hero-background .hero-image.active {
+    opacity: 1;
+    z-index: 2;
 }
 
 /* Suporte para GIF animado */
